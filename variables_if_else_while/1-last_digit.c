@@ -22,7 +22,7 @@ int main(void)
 	}
 	else if (n % 10 == 5)
 	{
-		printf("is 0 and is 0\n");
+		printf("is 0\n");
 	}
 	else
 	{
