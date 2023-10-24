@@ -1,7 +1,7 @@
 #include "main.h"
 /**
- * _strlen - function that returns the length of a string. 
-  * @s: An integer to swap
+ * _strlen - function that returns the length of a string.
+ * @s: An integer to swap
  *
  * Return: integer.
  */
