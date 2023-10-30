@@ -24,6 +24,7 @@ int actual_is_prime(int n, int i)
  * is_prime_number - function that returns 1 if the input
  * integer is a prime number, otherwise return 0
  * @n: number.
+ *
  * Return: 1 if n is a prime number, 0 if not
 */
 
