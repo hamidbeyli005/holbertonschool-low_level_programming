@@ -1,73 +1,63 @@
-#include "search_algos.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
 /**
- * print - search a value in an array
- * @array: pointer to the first element of the array
- * @p_before: index of the left sidey
- * @step: value to search for
- * @value: value to search for
- * Return: index of the value or -1 if element not found
- */
-int print(int *array, size_t p_before, size_t step, int value)
-{
-	size_t x;
-
-	for (x = p_before; x <= step; x++)
-	{
-		printf("Value checked array[%lu] = [%d]\n", x, array[x]);
-		if (array[x] == value)
-			return (x);
-	}
-	return (x);
-
-}
-/**
- * jump_search - search a value in an array
- * @array: pointer to the first element of the array
- * @size: index of the left side
- * @value: index of the right side
- * Return: -1 if element not found
+ * jump_search - searching algorithm
+ * @array: array of integers, sorted
+ * @size: size of the array
+ * @value: key value to match an element of the array
+ *
+ * Description: Using a jump search algorithm to find matching value
+ * Return: -1 if not found or index to the matched value
  */
 int jump_search(int *array, size_t size, int value)
 {
-	size_t step = sqrt(size);
-	size_t x;
-	size_t p_before = 0;
-	size_t gap = sqrt(size);
-	char *check = "Value checked array[%lu] = [%d]\n";
-	char *found = "Value found between indexes [%lu] and [%lu]\n";
+	unsigned int step = sqrt(size);
+	unsigned int left = 0;
+	unsigned int right = 0;
+	unsigned int i;
 
-	if (!array && size <= 0)
+	if (array == NULL || size == 0)
 		return (-1);
-	printf(check, p_before, array[p_before]);
-	while (array[step] < value && step <= size)
+
+	while (left < size && array[left] <= value)
 	{
-		if (array[step] != value)
-			printf(check, step, array[step]);
-		p_before = step;
-		step = step + sqrt(size);
-		if (step > size)
-		{
-			printf(found, p_before, step);
-			printf(check, p_before, array[p_before]);
-			return (-1);
-		}
+		printf("Value checked array[%d] = [%d]\n", left, array[left]);
+		right = min(size - 1, left + step);
+		if (array[left] <= value && array[right] >= value)
+			break;
+		left += step;
 	}
-	if (value >= array[gap])
-		printf(found, p_before, step);
+	if (value > array[right])
+	{
+		printf("Value found between indexes [%d] and [%d]\n",
+		       left - step, left);
+		printf("Value checked array[%d] = [%d]\n",
+		       left - step, array[left - step]);
+	}
 	else
+		printf("Value found between indexes [%d] and [%d]\n",
+		       left, right);
+	if (left >= size || array[left] > value)
 	{
-		printf("Value found between indexes [0] and [%lu]\n", gap);
-		for (x = 0; x < gap; x++)
-		{
-			printf(check, x, array[x]);
-			if (array[x] == value)
-				return (x);
-			else
-				return (-1);
-		}
+		return (-1);
 	}
-	return (print(array, p_before, step, value));
+	right = min(size - 1, right);
+	for (i = left; i <= right && array[i] <= value; i++)
+	{
+		printf("Value checked array[%d] = [%d]\n", i, array[i]);
+		if (array[i] == value)
+			return (i);
+	}
+	return (-1);
+}
+
+/**
+ * min - compare function
+ * @a: first parameter to compare
+ * @b: second parameter to compare
+ *
+ * Description: find smallest of the two values
+ * Return: smaller value
+ */
+int min(int a, int b)
+{
+	return (a < b ? a : b);
 }
